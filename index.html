@@ -480,8 +480,100 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
+
+    /* ── CALCULATOR ── */
+    .calc-box {
+      background: var(--card);
+      border-radius: var(--r-card);
+      box-shadow: var(--sh);
+      overflow: hidden;
+    }
+    .calc-input-area {
+      padding: 2rem;
+      background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+      border-bottom: 1px solid #FDE68A;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .calc-input-area { background: #2A1A00; border-color: #3D2800; }
+    }
+    .calc-lbl {
+      font-size: .85rem; font-weight: 700;
+      color: var(--am-deep); margin-bottom: .65rem; display: block;
+    }
+    .calc-row {
+      display: flex; align-items: stretch;
+      background: var(--card);
+      border: 2px solid #F59E0B;
+      border-radius: 12px; overflow: hidden;
+      max-width: 420px;
+      transition: box-shadow var(--ease);
+    }
+    .calc-row:focus-within { box-shadow: 0 0 0 3px rgba(245,158,11,.2); }
+    .calc-row input {
+      flex: 1; min-width: 0;
+      padding: .9rem 1.1rem;
+      border: none; outline: none;
+      font-family: inherit; font-size: 1.35rem; font-weight: 700;
+      color: var(--t1); background: transparent;
+    }
+    .calc-row input::placeholder { font-weight: 400; color: var(--t3); font-size: 1rem; }
+    .calc-row input::-webkit-inner-spin-button,
+    .calc-row input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .calc-suffix {
+      padding: 0 1.1rem;
+      font-size: .88rem; font-weight: 800;
+      color: var(--am-deep);
+      background: #FEF3C7;
+      border-left: 1.5px solid #FDE68A;
+      display: flex; align-items: center;
+    }
+    .calc-hint { font-size: .77rem; color: var(--am-deep); opacity: .65; margin-top: .5rem; }
+
+    .calc-results { padding: 1.5rem 2rem 2rem; }
+    .calc-results-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    .calc-table { width: 100%; border-collapse: collapse; min-width: 380px; }
+    .calc-table thead th {
+      padding: .65rem 1rem;
+      font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+      border-bottom: 2px solid var(--border); text-align: left; white-space: nowrap;
+    }
+    .calc-table thead th:first-child { color: var(--t3); }
+    .calc-table thead th.th-std { color: var(--g-text); }
+    .calc-table thead th.th-prm { color: var(--am-deep); }
+
+    .calc-table tbody tr { border-bottom: 1px solid var(--border); }
+    .calc-table tbody tr:last-child { border-bottom: none; }
+    .calc-table tbody tr:hover { background: var(--page); }
+    .calc-table tbody td { padding: .9rem 1rem; vertical-align: middle; }
+    .calc-table tbody td:first-child {
+      font-weight: 700; font-size: .88rem; color: var(--t2); white-space: nowrap;
+    }
+    .c-total { font-weight: 700; font-size: .97rem; display: block; }
+    .c-year  { font-size: .75rem; color: var(--t3); margin-top: .1rem; display: block; }
+    .c-std .c-total { color: var(--g-text); }
+    .c-prm .c-total { color: var(--am-deep); }
+
+    .calc-empty {
+      text-align: center; padding: 2.5rem 1rem;
+      color: var(--t3); font-size: .88rem; line-height: 1.6;
+    }
+    .calc-empty svg { width: 42px; height: 42px; opacity: .25; display: block; margin: 0 auto .75rem; }
+
+    .calc-legend {
+      display: flex; gap: 1.25rem; margin-bottom: 1.1rem; flex-wrap: wrap;
+    }
+    .calc-legend span {
+      font-size: .78rem; font-weight: 600;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .leg-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+
+
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -550,7 +642,7 @@
           </div>
           <div class="next-text">
             <strong>Posibilitate de asigurare a investiției</strong>
-            <span>Având în vedere investiția făcută în sistemul fotovoltaic, este recomandat și o poliță de asigurare facultativă împotriva unor evenimente neprevăzute. Prețurile încep de la mai puțin de 1% din investiție</span>
+            <span>Având în vedere investiția făcută în sistemul fotovoltaic, este recomandat și o poliță de asigurare facultativă împotriva unor evenimente neprevăzute</span>
           </div>
         </div>
       </div>
@@ -582,7 +674,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
-            Vreau ofertă gratuită
+            Solicită ofertă gratuită
           </div>
         </div>
         <div class="ins-icon-col" aria-hidden="true">
@@ -593,6 +685,39 @@
           </svg>
         </div>
       </button>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section>
+      <div style="margin-bottom:1.4rem;">
+        <div class="sec-label">Calculator primă</div>
+        <div class="sec-title">Calculează prima de asigurare</div>
+        <div class="sec-sub">Introduceți valoarea sistemului fotovoltaic și vedeți instant aporximativ cât costă asigurarea pentru fiecare pachet și durată.</div>
+      </div>
+      <div class="calc-box">
+        <div class="calc-input-area">
+          <label class="calc-lbl" for="calc-val">Valoarea sistemului fotovoltaic</label>
+          <div class="calc-row">
+            <input type="number" id="calc-val" placeholder="ex: 25000" min="0" inputmode="numeric">
+            <span class="calc-suffix">RON</span>
+          </div>
+          <div class="calc-hint">Introduceți valoarea din factura finală a instalației .</div>
+        </div>
+        <div class="calc-results">
+          <div id="calc-out">
+            <div class="calc-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="10" x2="16" y2="10"/>
+                <line x1="8" y1="14" x2="13" y2="14"/>
+                <circle cx="17" cy="17" r="3"/>
+                <line x1="19.5" y1="19.5" x2="21" y2="21"/>
+              </svg>
+              Introduceți valoarea sistemului pentru a vedea calculul.
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- FAQ -->
@@ -878,6 +1003,66 @@
       this.classList.remove('err');
     });
   });
+
+
+/* ── CALCULATOR ── */
+  var rates = {
+    standard: [0.82, 1.56, 2.27, 2.93, 3.54, 4.15],
+    premium:  [1.31, 2.49, 3.62, 4.67, 5.63, 6.60]
+  };
+
+  function fmtRON(v) {
+    return new Intl.NumberFormat('ro-RO', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2
+    }).format(v) + ' RON';
+  }
+
+  document.getElementById('calc-val').addEventListener('input', function() {
+    var val = parseFloat(this.value);
+    var out = document.getElementById('calc-out');
+
+    if (!val || val <= 0) {
+      out.innerHTML = '<div class="calc-empty">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/>' +
+        '<line x1="8" y1="14" x2="13" y2="14"/><circle cx="17" cy="17" r="3"/><line x1="19.5" y1="19.5" x2="21" y2="21"/>' +
+        '</svg>Introduceți valoarea sistemului pentru a vedea calculul.</div>';
+      return;
+    }
+
+    var durate = ['1 an','2 ani','3 ani','4 ani','5 ani','6 ani'];
+    var html = '<div class="calc-legend">' +
+      '<span><span class="leg-dot" style="background:#15803D"></span>Pachet Standard – Fără franciză</span>' +
+      '<span><span class="leg-dot" style="background:#D97706"></span>Pachet Premium – Fără franciză</span>' +
+      '</div>' +
+      '<div class="calc-results-wrap"><table class="calc-table"><thead><tr>' +
+      '<th>Durată</th>' +
+      '<th class="th-std">Pachet Standard</th>' +
+      '<th class="th-prm">Pachet Premium</th>' +
+      '</tr></thead><tbody>';
+
+    for (var i = 0; i < 6; i++) {
+      var totalStd = val * rates.standard[i] / 100;
+      var totalPrm = val * rates.premium[i] / 100;
+      var ani = i + 1;
+      html += '<tr>' +
+        '<td>' + durate[i] + '</td>' +
+        '<td class="c-std">' +
+          '<span class="c-total">' + fmtRON(totalStd) + '</span>' +
+          '<span class="c-year">' + fmtRON(totalStd / ani) + ' / an</span>' +
+        '</td>' +
+        '<td class="c-prm">' +
+          '<span class="c-total">' + fmtRON(totalPrm) + '</span>' +
+          '<span class="c-year">' + fmtRON(totalPrm / ani) + ' / an</span>' +
+        '</td>' +
+        '</tr>';
+    }
+
+    html += '</tbody></table></div>';
+    out.innerHTML = html;
+  });
+
+
 
   /* ── TOAST ── */
   function showToast(msg) {
